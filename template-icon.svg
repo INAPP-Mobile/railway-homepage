@@ -1,52 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800" fill="none">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2E1065"/>
-      <stop offset="100%" stop-color="#0D001A"/>
-    </linearGradient>
-    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#6D28D9"/>
-      <stop offset="100%" stop-color="#6C3FC5"/>
-    </linearGradient>
-    <linearGradient id="cardLight" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#7C3AED"/>
-      <stop offset="100%" stop-color="#8B5CF6"/>
+      <stop offset="0%" stop-color="#6D28D9"/><stop offset="100%" stop-color="#6C3FC5"/>
     </linearGradient>
   </defs>
   <rect width="800" height="800" rx="120" fill="url(#bg)"/>
-  <!-- Decorative ring -->
-  <circle cx="400" cy="400" r="210" stroke="#6D28D9" stroke-width="1.5" opacity="0.15"/>
-  <!-- Dashboard grid (bento box) -->
+  <!-- Bento grid dashboard -->
   <g transform="translate(400,400)">
-    <!-- Top-left large card -->
-    <rect x="-210" y="-160" width="240" height="140" rx="28" fill="url(#cardLight)" opacity="0.7"/>
-    <!-- Mini chart inside top-left -->
-    <rect x="-185" y="-120" rx="4" width="16" height="60" fill="#DDD6FE" opacity="0.3"/>
-    <rect x="-160" y="-140" rx="4" width="16" height="80" fill="#DDD6FE" opacity="0.25"/>
-    <rect x="-135" y="-100" rx="4" width="16" height="40" fill="#DDD6FE" opacity="0.35"/>
-    <circle cx="-50" cy="-100" r="30" fill="none" stroke="#DDD6FE" stroke-width="5" opacity="0.15"/>
-    <!-- Top-right small card -->
-    <rect x="50" y="-160" width="160" height="140" rx="28" fill="url(#card)" opacity="0.8"/>
-    <circle cx="130" cy="-80" r="25" fill="#DDD6FE" opacity="0.2"/>
-    <circle cx="130" cy="-80" r="18" fill="#DDD6FE" opacity="0.3"/>
-    <circle cx="130" cy="-80" r="10" fill="#DDD6FE" opacity="0.4"/>
-    <!-- Bottom-left small card -->
-    <rect x="-210" y="10" width="160" height="150" rx="28" fill="url(#card)" opacity="0.9"/>
-    <line x1="-180" y1="100" x2="-60" y2="40" stroke="#DDD6FE" stroke-width="3" opacity="0.2"/>
-    <circle cx="-180" cy="100" r="5" fill="#DDD6FE" opacity="0.35"/>
-    <circle cx="-140" cy="80" r="5" fill="#DDD6FE" opacity="0.3"/>
-    <circle cx="-100" cy="60" r="5" fill="#DDD6FE" opacity="0.25"/>
-    <circle cx="-60" cy="40" r="5" fill="#DDD6FE" opacity="0.2"/>
-    <!-- Bottom-right wide card -->
-    <rect x="-30" y="10" width="240" height="150" rx="28" fill="url(#cardLight)" opacity="0.6"/>
-    <rect x="10" y="50" rx="4" width="20" height="70" fill="#DDD6FE" opacity="0.2"/>
-    <rect x="40" y="70" rx="4" width="20" height="50" fill="#DDD6FE" opacity="0.3"/>
-    <rect x="70" y="40" rx="4" width="20" height="80" fill="#DDD6FE" opacity="0.18"/>
-    <rect x="100" y="60" rx="4" width="20" height="60" fill="#DDD6FE" opacity="0.25"/>
-    <rect x="130" y="80" rx="4" width="20" height="40" fill="#DDD6FE" opacity="0.3"/>
+    <!-- Large top card -->
+    <rect x="-230" y="-200" width="280" height="160" rx="32" fill="#FFFFFF"/>
+    <rect x="-190" y="-140" rx="6" width="20" height="60" fill="#6D28D9"/>
+    <rect x="-155" y="-165" rx="6" width="20" height="85" fill="#6D28D9"/>
+    <rect x="-120" y="-130" rx="6" width="20" height="50" fill="#6D28D9"/>
+    <circle cx="-30" cy="-100" r="40" fill="none" stroke="#6D28D9" stroke-width="8"/>
+    <!-- Small top-right card -->
+    <rect x="80" y="-200" width="150" height="160" rx="32" fill="#FFFFFF"/>
+    <circle cx="155" cy="-100" r="25" fill="#6D28D9" opacity="0.3"/>
+    <circle cx="155" cy="-100" r="15" fill="#6D28D9" opacity="0.5"/>
+    <circle cx="155" cy="-100" r="7" fill="#6D28D9"/>
+    <!-- Bottom-left card -->
+    <rect x="-230" y="10" width="180" height="190" rx="32" fill="#FFFFFF"/>
+    <ellipse cx="-140" cy="110" rx="50" ry="40" fill="none" stroke="#6D28D9" stroke-width="6"/>
+    <ellipse cx="-140" cy="110" rx="20" ry="15" fill="#6D28D9"/>
+    <!-- Bottom-right card -->
+    <rect x="-20" y="10" width="250" height="190" rx="32" fill="#FFFFFF"/>
+    <rect x="40" y="60" rx="6" width="24" height="90" fill="#6D28D9"/>
+    <rect x="80" y="90" rx="6" width="24" height="60" fill="#6D28D9"/>
+    <rect x="120" y="50" rx="6" width="24" height="100" fill="#6D28D9"/>
+    <rect x="160" y="80" rx="6" width="24" height="70" fill="#6D28D9"/>
   </g>
-  <!-- Accent -->
-  <circle cx="150" cy="180" r="5" fill="#8B5CF6" opacity="0.3"/>
-  <circle cx="640" cy="620" r="6" fill="#A78BFA" opacity="0.25"/>
-  <circle cx="620" cy="160" r="4" fill="#7C3AED" opacity="0.35"/>
 </svg>
