@@ -1,13 +1,45 @@
-# Homepage — Railway Template
+# Deploy and Host
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/homepage)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/new/template/homepage)
+
+> **Canonical code:** `homepage` — deploy URL: https://railway.com/new/template/homepage
+
+![OG Image](https://raw.githubusercontent.com/INAPP-Mobile/railway-homepage/main/og-image.svg)
+
+Homepage is a modern, highly-configurable self-hosted application dashboard with 100+ service integrations. Deploy it on Railway in minutes to turn your stack into a beautiful start page.
+
+## About Hosting
+
+Homepage runs as a single container with a persistent Railway volume for config (`/app/config`). Railway provides the compute, TLS at the edge, and a public URL. The service restarts automatically on failures via Railway's built-in health check. No external database or cache is needed — everything runs in one container.
+
+## Why Deploy
+
+- **100+ service integrations** — Plex, Sonarr, Radarr, Grafana, GitHub, Docker, Kubernetes, Home Assistant, Uptime Kuma, and many more widgets with live status.
+- **Zero external dependencies** — Single container with a persistent volume. No PostgreSQL, no Redis, no sidecars.
+- **Drag-and-drop layout** — Widgetized cards, collapsible groups, search bar with keyboard shortcuts, and per-user settings.
+- **Themeable UI** — Dark, light, neon, glassmorphism, and more. Custom backgrounds supported.
+- **Persistent config** — All settings survive redeploys via the Railway volume mount.
+- **Ships with sensible defaults** — Dark theme, Railway PORT binding, English locale — ready out of the box.
+
+## Common Use Cases
+
+- **Personal dashboard** — Aggregate all your self-hosted services into one beautiful start page.
+- **Team operations hub** — Share a dashboard with your team showing CI/CD status, monitoring, and deployment links.
+- **Homelab control center** — Monitor and access all your homelab services from a single pane of glass.
+- **New tab replacement** — Set Homepage as your browser's new tab page for instant access to everything.
+- **Status board** — Display live service status on a dedicated monitor or kiosk.
+
+## Dependencies for Homepage
+
+### Deployment Dependencies
+
+Homepage requires no external dependencies on Railway. It runs as a standalone Next.js server with a persistent Railway volume for configuration files. No database, cache, or third-party services are needed.
+
+---
+
 [![Homepage](https://img.shields.io/badge/Homepage-v1.13.2-1e3a8a?logo=homepagecommunity)](https://github.com/gethomepage/homepage)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/gethomepage/homepage/blob/main/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/gethomepage/homepage?style=social)](https://github.com/gethomepage/homepage)
-
-<p align="center">
-  <img src="./og-image.svg" alt="Homepage on Railway" width="100%">
-</p>
 
 ## 🚀 One-Click Deploy
 
@@ -21,7 +53,7 @@ This template ships a **production-ready single-container deployment**:
 
 - ✅ Pinned upstream (Homepage `v1.13.2`, released June 9 2026)
 - ✅ Auto-injected persistent Railway volume for `/app/config`
-- ✅ Sensible defaults — dark theme, port 3000, language `en`
+- ✅ Sensible defaults — dark theme, Railway PORT binding, language `en`
 - ✅ Healthcheck endpoint tuned for Railway's monitoring
 - ✅ Non-root runtime (upstream image convention preserved)
 - ✅ Env-var-driven config — no manual file editing required (but supported)
@@ -29,15 +61,12 @@ This template ships a **production-ready single-container deployment**:
 
 ### ✨ Features
 
-- **100+ service integrations**: Plex, Sonarr, Radarr, Bazarr, Lidarr, Readarr, Prowlarr, Overseerr, Jellyfin, PiHole, AdGuard Home, qBittorrent, Deluge, Transmission, Uptime Kuma, Home Assistant, UniFi, pfSense, Grafana, Loki, Prometheus, GitHub, Docker, Kubernetes, and many more — see the [full list on the homepage docs site](https://gethomepage.dev/widgets/).
-- **Custom layout with widgetized cards** — drag-and-drop, search, and per-user settings.
-- **Group services by type** with collapsible sections and reactive counters.
-- **Search bar** with configurable engines and instant keyboard shortcuts.
-- **See live status** (synced every 30s) and click any service to open its web UI.
-- **Bookmarks panel** for non-status links.
-- **Themeable** — dark, light, neon, glassmorphism and others.
-- **i18n** — multi-language UI.
-- **Persistent config** — your settings survive every Railway redeploy.
+- **100+ service integrations**: Plex, Sonarr, Radarr, Grafana, GitHub, Docker, Home Assistant, Uptime Kuma, and many more — [full list](https://gethomepage.dev/widgets/).
+- **Drag-and-drop layout** with widgetized cards, collapsible groups, search bar, and per-user settings.
+- **Live status** synced every 30s — click any service to open its web UI.
+- **Themeable** — dark, light, neon, glassmorphism and others. Custom backgrounds supported.
+- **Persistent config** survives every Railway redeploy via volume mount.
+- **No external dependencies** — single container, no database or cache required.
 
 ### 🖼️ Screenshots
 
@@ -45,42 +74,20 @@ This template ships a **production-ready single-container deployment**:
 
 ## 🏗️ Architecture
 
-```text
-┌─────────────────────────────────────────────────┐
-│                Railway Container                 │
-│                                                   │
-│  ┌───────────────────────────────────────────┐   │
-│  │        Homepage (Next.js server)           │   │
-│  │           Listening on :3000               │   │
-│  │  ┌─────────┐  ┌──────────┐  ┌──────────┐   │ │
-│  │  │ Services │  │ Bookmarks │  │  Widgets │   │ │
-│  │  └────┬────┘  └────┬─────┘  └────┬─────┘   │ │
-│  │       │             │             │         │ │
-│  │  ┌────▼─────────────▼─────────────▼──────┐  │ │
-│  │  │     /api/health, /, /api/services      │  │ │
-│  │  └──────────────────────────────────────┘   │ │
-│  └───────────────────────────────────────────┘   │
-│                                                   │
-│  ┌───────────────────────────────────────────┐   │
-│  │     Persistent Volume: /app/config        │   │
-│  │   settings.yaml · services.yaml ·         │   │
-│  │   bookmarks.yaml · widgets.yaml · icons   │   │
-│  └───────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────┘
-
-Healthcheck: GET /         → 200 OK
-Restart policy: ON_FAILURE (5 retries)
-External access: HTTPS at Railway edge (TLS automatic)
+```
+Railway Container
+  ├── Homepage (Next.js) → :$PORT, healthcheck GET /
+  └── Persistent Volume → /app/config (settings, services, bookmarks, widgets, icons)
 ```
 
-Single web service. One Railway volume mount. No database, no Redis, no extra sidecars — keeps it inside the $5 Hobby tier comfortably.
+Single web service. One Railway volume. No database, no Redis, no extra sidecars. Healthcheck: GET / → 200 OK. Restart: ON_FAILURE (5 retries). HTTPS at Railway edge (TLS automatic).
 
 ## 🔧 Environment Variables
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `PORT` | no | `3000` | Container port. Railway normally injects this. |
-| `HOMEPAGE_PORT` | no | `3000` | The port Homepage's internal server binds to. |
+| `PORT` | no | `8080` | Container port. Railway injects this automatically. |
+| `HOMEPAGE_PORT` | no | *(auto)* | Optional: override the port Homepage binds to. Defaults to Railway's `PORT`. |
 | `HOMEPAGE_VAR_DEFAULT_THEME` | no | `dark` | UI theme on first load (`dark`, `light`, `neon`, `glassmorphism`, …). |
 | `LOG_LEVEL` | no | `info` | Server-side log verbosity. |
 | `HOMEPAGE_VAR_TITLE` | no | *(n/a)* | Optional: title shown in the browser tab. |
@@ -94,53 +101,21 @@ Single web service. One Railway volume mount. No database, no Redis, no extra si
 
 Homepage reads YAML config files from the persistent volume at `/app/config`.
 
-### Option A — Visual editor (recommended for first-time users)
+### Option A — Visual editor (recommended)
 
-1. Deploy the template.
-2. Open the live URL.
-3. Click the ⚙️ icon (widget edit mode). Customize live. Click **Save**.
-4. Config is persisted to the Railway volume automatically.
+Deploy, open the live URL, click ⚙️ to customize, and click Save. Config persists to the Railway volume automatically.
 
 ### Option B — File-based config
 
-If you prefer YAML files:
-
-```bash
-# Local development
-git clone https://github.com/INAPP-Mobile/railway-homepage.git
-cd railway-homepage
-
-mkdir -p config
-cp config/settings.example.yaml config/settings.yaml
-$EDITOR config/settings.yaml  # your real config
-```
-
-When deploying to Railway, the volume is mounted at `/app/config` — and your local files become the live config after a redeploy.
-
-Reference files: <https://github.com/gethomepage/homepage/tree/main/kubernetes>
+If you prefer YAML, clone the repo, edit `config/settings.yaml`, and redeploy. The volume at `/app/config` loads your files on start. Reference: <https://github.com/gethomepage/homepage/tree/main/kubernetes>
 
 ## 🛠️ Local Development
 
 ```bash
-# 1. Clone the template
-git clone https://github.com/INAPP-Mobile/railway-homepage.git
-cd railway-homepage
-
-# 2. Copy environment variables
-cp .env.example .env
-$EDITOR .env  # adjust as needed
-
-# 3. Build the Docker image (uses the pinned Dockerfile)
+git clone https://github.com/INAPP-Mobile/railway-homepage.git && cd railway-homepage
+cp .env.example .env && $EDITOR .env
 docker build -t railway-homepage .
-
-# 4. Run it (mount a local config dir as /app/config)
-docker run -d --name homepage \
-  -p 3000:3000 \
-  -v "$(pwd)/config:/app/config" \
-  --env-file .env \
-  railway-homepage
-
-# 5. Verify it's up
+docker run -d --name homepage -p 3000:3000 -v "$(pwd)/config:/app/config" --env-file .env railway-homepage
 curl -sf http://localhost:3000/ | head -20
 ```
 
@@ -149,27 +124,19 @@ Open <http://localhost:3000> in your browser.
 ## 🧪 Testing
 
 ```bash
-# Build check
 docker build -t railway-homepage .
-
-# Health
-docker run --rm -p 3000:3000 railway-homepage &
-sleep 10
+docker run --rm -p 3000:3000 railway-homepage & sleep 10
 curl -sf http://localhost:3000/ && echo OK
 ```
-
-For the publisher's automated E2E suite, see `pipeline-logs/e2e-output-homepage.md`.
 
 ## 🐛 Troubleshooting
 
 | Issue | Solution |
 |---|---|
-| Container exits immediately | Check Railway logs. Most often a missing or malformed `HOMEPAGE_VAR_*`. |
-| `404` on widget cards | Your service URLs use internal Railway hostnames. Use the public Railway graph URL for each linked service. |
-| Theme doesn't persist | Confirm `/app/config` is still mounted. Without the volume, all settings reset on every redeploy. |
-| Health checks fail repeatedly | Raise `start-period` in `railway.json` (already 20s — Homepage is fast but cold-cache takes longer on first run). |
-| Port already in use | Override `PORT` and `HOMEPAGE_PORT` to a free port. Railway auto-routes traffic on the new port. |
-| Disk filling up | The config volume is tiny. If you upload custom background images, keep them < 5 MB each. |
+| Container exits immediately | Check Railway logs — usually a malformed `HOMEPAGE_VAR_*`. |
+| Theme/Widgets reset on redeploy | Confirm `/app/config` volume is still mounted. |
+| Health checks failing | Raise `start-period` in `railway.json`; first-build cold cache may take longer. |
+| Port already in use | Override `PORT` and `HOMEPAGE_PORT` — Railway auto-routes. |
 
 For upstream-specific issues, consult <https://github.com/gethomepage/homepage/issues>.
 
@@ -185,10 +152,4 @@ A GitHub Actions workflow (`.github/workflows/publish-lint.yml`) prevents publis
 
 ## 📄 License
 
-Homepage upstream is [MIT-licensed](https://github.com/gethomepage/homepage/blob/main/LICENSE).
-
-This Railway template is published by [INAPP-Mobile](https://github.com/INAPP-Mobile) — not affiliated with or endorsed by the Homepage maintainers.
-
-## 🤝 Contributing
-
-Issues and PRs welcome at <https://github.com/INAPP-Mobile/railway-homepage>. Please keep the Dockerfile pinned and the schema simple.
+Homepage upstream is [MIT-licensed](https://github.com/gethomepage/homepage/blob/main/LICENSE). Template by [INAPP-Mobile](https://github.com/INAPP-Mobile). Issues/PRs: <https://github.com/INAPP-Mobile/railway-homepage>.

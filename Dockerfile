@@ -25,10 +25,10 @@ USER 1000
 ENV HOMEPAGE_VAR_DEFAULT_THEME=dark \
     NODE_ENV=production
 
-EXPOSE 3000
+# Railway injects PORT=8080 and its reverse-proxy routes external traffic
+# dynamically. No hardcoded EXPOSE — the server binds to $PORT, and the
+# healthcheck reads the same variable.
+# start-period=180s absorbs first-build cold cache.
 
-# Homepage's upstream server binds to HOMEPAGE_PORT || PORT || 3000.
-# Healthcheck probes whatever Railway injects as PORT, falling back to 3000.
-# start-period=180s provides buffer for first-build cold cache on Railway.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=180s --retries=3 \
   CMD curl -fsS "http://127.0.0.1:${PORT:-3000}/" >/dev/null 2>&1 || exit 1
