@@ -1,0 +1,22 @@
+[
+  {
+    "value": "3000",
+    "description": "Port Homepage listens on (default: 3000). Railway injects PORT for routing."
+  },
+  {
+    "value": "dark",
+    "description": "Default theme: dark, light, neon, or glassmorphism."
+  },
+  {
+    "value": "",
+    "description": "Custom dashboard title (e.g., My Dashboard). Leave empty for default."
+  },
+  {
+    "value": "",
+    "description": "Dashboard language code (e.g., en, fr, de). Leave empty for browser default."
+  },
+  {
+    "value": "info",
+    "description": "Server log verbosity: info, debug, warn, or error."
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "HOMEPAGE_PORT": {
+    "defaultValue": "3000",
+    "description": "Port Homepage listens on (default: 3000). Railway injects PORT for routing.",
+    "isOptional": true
+  },
+  "HOMEPAGE_VAR_DEFAULT_THEME": {
+    "defaultValue": "dark",
+    "description": "Default theme: dark, light, neon, or glassmorphism.",
+    "isOptional": true
+  },
+  "HOMEPAGE_VAR_TITLE": {
+    "defaultValue": "",
+    "description": "Custom dashboard title (e.g., My Dashboard). Leave empty for default.",
+    "isOptional": true
+  },
+  "HOMEPAGE_VAR_LANGUAGE": {
+    "defaultValue": "",
+    "description": "Dashboard language code (e.g., en, fr, de). Leave empty for browser default.",
+    "isOptional": true
+  },
+  "LOG_LEVEL": {
+    "defaultValue": "info",
+    "description": "Server log verbosity: info, debug, warn, or error.",
+    "isOptional": true
+  }
+}
