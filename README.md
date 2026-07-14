@@ -86,16 +86,13 @@ Single web service. One Railway volume. No database, no Redis, no extra sidecars
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `PORT` | no | `8080` | Container port. Railway injects this automatically. |
-| `HOMEPAGE_PORT` | no | *(auto)* | Optional: override the port Homepage binds to. Defaults to Railway's `PORT`. |
-| `HOMEPAGE_VAR_DEFAULT_THEME` | no | `dark` | UI theme on first load (`dark`, `light`, `neon`, `glassmorphism`, …). |
-| `LOG_LEVEL` | no | `info` | Server-side log verbosity. |
-| `HOMEPAGE_VAR_TITLE` | no | *(n/a)* | Optional: title shown in the browser tab. |
-| `HOMEPAGE_VAR_LANGUAGE` | no | `en` | UI language code. |
-| `HOMEPAGE_VAR_BACKGROUND_IMAGE_URL` | no | *(n/a)* | Optional: custom background image. |
-| `HOMEPAGE_VAR_BACKGROUND_OPACITY` | no | *(n/a)* | Optional: backdrop opacity 0.0–1.0. |
+| `PORT` | no | `8080` | Container port. Railway injects this automatically; Homepage (Next.js) honors it. |
+| `HOMEPAGE_ALLOWED_HOSTS` | **yes** | `*` | Comma-separated hosts allowed to serve Homepage (required by Homepage v1.0+). Railway serves from a dynamic `*.railway.app` domain, so `*` disables the host check. For tighter security set your real domain(s), e.g. `mydash.railway.app`. Without this, requests are rejected with a "Disallowed Host" error. |
+| `HOMEPAGE_VAR_DEFAULT_THEME` | no | `dark` | UI theme on first load (`dark`, `light`, `neon`, `glassmorphism`, …). Applied only if your config YAML uses the `{{HOMEPAGE_VAR_DEFAULT_THEME}}` placeholder. |
+| `HOMEPAGE_VAR_TITLE` | no | *(empty)* | Optional: title shown in the browser tab. Applied only if config YAML uses `{{HOMEPAGE_VAR_TITLE}}`. |
+| `HOMEPAGE_VAR_LANGUAGE` | no | *(empty)* | UI language code (e.g., `en`, `fr`, `de`). Applied only if config YAML uses `{{HOMEPAGE_VAR_LANGUAGE}}`. |
 
-> All `HOMEPAGE_VAR_*` settings can also be set inline via the [env mapping](https://gethomepage.dev/configs/services/) — they're automatically read on container start.
+> `HOMEPAGE_VAR_*` tokens substitute into your config YAML `{{HOMEPAGE_VAR_XXX}}` placeholders on container start. With an empty `/app/config` they have no visible effect until a matching `settings.yaml` is added. There is **no** `HOMEPAGE_PORT` or `LOG_LEVEL` env var in Homepage — port binding is handled by Railway's injected `PORT`.
 
 ## 🧩 Configuring your dashboard
 
@@ -136,7 +133,8 @@ curl -sf http://localhost:3000/ && echo OK
 | Container exits immediately | Check Railway logs — usually a malformed `HOMEPAGE_VAR_*`. |
 | Theme/Widgets reset on redeploy | Confirm `/app/config` volume is still mounted. |
 | Health checks failing | Raise `start-period` in `railway.json`; first-build cold cache may take longer. |
-| Port already in use | Override `PORT` and `HOMEPAGE_PORT` — Railway auto-routes. |
+| Port already in use | Railway auto-routes via the injected `PORT`; no `HOMEPAGE_PORT` override exists. |
+| "Disallowed Host" error | Set `HOMEPAGE_ALLOWED_HOSTS` to include your Railway domain (or `*` to disable the check). |
 
 For upstream-specific issues, consult <https://github.com/gethomepage/homepage/issues>.
 

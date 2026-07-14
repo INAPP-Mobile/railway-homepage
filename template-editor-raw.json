@@ -1,22 +1,18 @@
 {
-  "HOMEPAGE_PORT": {
-    "value": "3000",
-    "description": "Port Homepage listens on (default: 3000). Railway injects PORT for routing."
+  "HOMEPAGE_ALLOWED_HOSTS": {
+    "value": "*",
+    "description": "Comma-separated list of hosts allowed to serve Homepage (required by Homepage v1.0+). Railway serves from a dynamic *.railway.app domain, so '*' disables the host check. For tighter security set this to your actual domain(s), e.g. mydash.railway.app."
   },
   "HOMEPAGE_VAR_DEFAULT_THEME": {
     "value": "dark",
-    "description": "Default theme: dark, light, neon, or glassmorphism."
+    "description": "Default theme: dark, light, neon, or glassmorphism. Applied only if your config YAML references the {{HOMEPAGE_VAR_DEFAULT_THEME}} placeholder."
   },
   "HOMEPAGE_VAR_TITLE": {
     "value": "",
-    "description": "Custom dashboard title (e.g., My Dashboard). Leave empty for default."
+    "description": "Custom dashboard title (e.g., My Dashboard). Leave empty for default. Applied only if config YAML uses {{HOMEPAGE_VAR_TITLE}}."
   },
   "HOMEPAGE_VAR_LANGUAGE": {
     "value": "",
-    "description": "Dashboard language code (e.g., en, fr, de). Leave empty for browser default."
-  },
-  "LOG_LEVEL": {
-    "value": "info",
-    "description": "Server log verbosity: info, debug, warn, or error."
+    "description": "Dashboard language code (e.g., en, fr, de). Leave empty for browser default. Applied only if config YAML uses {{HOMEPAGE_VAR_LANGUAGE}}."
   }
 }
