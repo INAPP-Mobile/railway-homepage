@@ -12,17 +12,14 @@
 
 FROM ghcr.io/gethomepage/homepage:v1.13.2
 
-# Fix /app/config ownership so the upstream init script can populate it.
-USER root
-RUN mkdir -p /app/config && \
-    chown -R 1000:1000 /app/config && \
-    chmod -R 0755 /app/config
-WORKDIR /app
-
-# Drop back to upstream's runtime user (uid 1000 = node).
-USER 1000
-
-ENV HOMEPAGE_VAR_DEFAULT_THEME=dark \
+# Railway mounts persistent volumes as root:root at RUNTIME, which defeats any
+# build-time chown. The upstream docker-entrypoint.sh only fixes /app/config
+# ownership when PUID/PGID are non-zero (defaults to 0 = root = "skip"). Setting
+# PUID=1000 / PGID=1000 makes the entrypoint chown /app/config at container start,
+# so the uid-1000 init script can copy the skeleton config into the mounted volume.
+ENV PUID=1000 \
+    PGID=1000 \
+    HOMEPAGE_VAR_DEFAULT_THEME=dark \
     NODE_ENV=production
 
 # Railway injects PORT=8080 and its reverse-proxy routes external traffic
