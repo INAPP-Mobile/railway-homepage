@@ -56,7 +56,7 @@ This template ships a **production-ready single-container deployment**:
 - ✅ Sensible defaults — dark theme, Railway PORT binding, language `en`
 - ✅ Healthcheck endpoint tuned for Railway's monitoring
 - ✅ Non-root runtime (upstream image convention preserved)
-- ✅ Env-var-driven config — no manual file editing required (but supported)
+- ✅ Env-var-driven config — a few `HOMEPAGE_VAR_*` tokens inject into your YAML `{{...}}` placeholders (manual file editing also fully supported)
 - ✅ GitHub Actions security lint on every PR
 
 ### ✨ Features
@@ -96,15 +96,41 @@ Single web service. One Railway volume. No database, no Redis, no extra sidecars
 
 ## 🧩 Configuring your dashboard
 
-Homepage reads YAML config files from the persistent volume at `/app/config`.
+> **Homepage is config-file driven — there is no in-browser editor or admin panel.**
+> The dashboard has no "Edit" / "Settings" page and no save button. Every control at
+> the bottom-right of the UI (⚙️ revalidate, 🎨 color, 🌓 theme, version) only changes
+> the *view* for your current browser session — it does **not** edit the config.
+> All real configuration is done by editing YAML files in `/app/config` (see below).
 
-### Option A — Visual editor (recommended)
+Homepage reads YAML config files from the persistent volume at `/app/config`. The files are:
 
-Deploy, open the live URL, click ⚙️ to customize, and click Save. Config persists to the Railway volume automatically.
+| File | Purpose |
+|---|---|
+| `settings.yaml` | Global settings (title, theme, layout, providers, features) |
+| `services.yaml` | Service groups and links shown on the dashboard |
+| `widgets.yaml` | Widget definitions (status, monitoring, integrations) |
+| `bookmarks.yaml` | Bookmark links |
 
-### Option B — File-based config
+Reference: <https://gethomepage.dev/configs/>
 
-If you prefer YAML, clone the repo, edit `config/settings.yaml`, and redeploy. The volume at `/app/config` loads your files on start. Reference: <https://github.com/gethomepage/homepage/tree/main/kubernetes>
+### Option A — Railway file browser (easiest on Railway)
+
+1. In the Railway project, open the **Homepage** service → **Files** tab.
+2. Navigate to `/app/config`.
+3. Create or edit a YAML file (e.g. `services.yaml`), paste your config, and save.
+4. Click the **⚙️ revalidate** icon (bottom-right of the dashboard) to reload, or redeploy.
+
+Config persists to the Railway volume automatically.
+
+### Option B — CLI / repo
+
+```bash
+# Upload a local YAML file into the running service
+railway service files upload ./services.yaml /app/config/services.yaml
+```
+
+Or clone the repo, edit `config/*.yaml`, and redeploy. The volume at `/app/config`
+loads your files on start. See <https://github.com/gethomepage/homepage/tree/main/kubernetes>.
 
 ## 🛠️ Local Development
 
