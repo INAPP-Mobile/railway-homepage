@@ -1,5 +1,5 @@
 # =============================================================================
-# Railway Template: Homepage v1.13.2
+# Railway Template: Homepage v2.0.0
 # https://github.com/gethomepage/homepage
 # =============================================================================
 # Notes from deploy-fail cycles (see pipeline-logs/deploy-publish-attempt.log):
@@ -10,7 +10,7 @@
 #   • Railway's cold first-build can take 90–180s; start-period=180s absorbs it.
 # =============================================================================
 
-FROM ghcr.io/gethomepage/homepage:v1.13.2
+FROM ghcr.io/gethomepage/homepage:v2.0.0
 
 # Railway mounts persistent volumes as root:root at RUNTIME, which defeats any
 # build-time chown. The upstream docker-entrypoint.sh only fixes /app/config
@@ -25,7 +25,7 @@ ENV PUID=1000 \
 # Railway injects PORT=8080 and its reverse-proxy routes external traffic
 # dynamically. No hardcoded EXPOSE — the server binds to $PORT, and the
 # healthcheck reads the same variable.
-# start-period=180s absorbs first-build cold cache.
+# start-period=180s absorbs first-build cold cache (upstream default is 20s).
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=180s --retries=3 \
-  CMD curl -fsS "http://127.0.0.1:${PORT:-3000}/" >/dev/null 2>&1 || exit 1
+  CMD wget --no-verbose --tries=1 --spider -Y off "http://127.0.0.1:${PORT:-3000}/api/healthcheck" || exit 1

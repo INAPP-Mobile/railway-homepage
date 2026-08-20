@@ -37,13 +37,13 @@ Homepage requires no external dependencies on Railway. It runs as a standalone N
 
 ---
 
-[![Homepage](https://img.shields.io/badge/Homepage-v1.13.2-1e3a8a?logo=homepagecommunity)](https://github.com/gethomepage/homepage)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/gethomepage/homepage/blob/main/LICENSE)
+[![Homepage](https://img.shields.io/badge/Homepage-v2.0.0-1e3a8a?logo=homepagecommunity)](https://github.com/gethomepage/homepage)
+[![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://github.com/gethomepage/homepage/blob/main/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/gethomepage/homepage?style=social)](https://github.com/gethomepage/homepage)
 
 ## 🚀 One-Click Deploy
 
-Click the button above to deploy **Homepage** to Railway instantly. The build uses our pinned, reproducible Dockerfile (Homepage v1.13.2).
+Click the button above to deploy **Homepage** to Railway instantly. The build uses our pinned, reproducible Dockerfile (Homepage v2.0.0).
 
 ## 📋 Description
 
@@ -51,9 +51,10 @@ Click the button above to deploy **Homepage** to Railway instantly. The build us
 
 This template ships a **production-ready single-container deployment**:
 
-- ✅ Pinned upstream (Homepage `v1.13.2`, released June 9 2026)
+- ✅ Pinned upstream (Homepage `v2.0.0`, released August 14 2026)
 - ✅ Auto-injected persistent Railway volume for `/app/config`
 - ✅ Sensible defaults — dark theme, Railway PORT binding, language `en`
+- ✅ Optional built-in auth (password or OIDC) — off by default, enable via env vars
 - ✅ Healthcheck endpoint tuned for Railway's monitoring
 - ✅ Non-root runtime (upstream image convention preserved)
 - ✅ Env-var-driven config — a few `HOMEPAGE_VAR_*` tokens inject into your YAML `{{...}}` placeholders (manual file editing also fully supported)
@@ -91,6 +92,11 @@ Single web service. One Railway volume. No database, no Redis, no extra sidecars
 | `HOMEPAGE_VAR_DEFAULT_THEME` | no | `dark` | UI theme on first load (`dark`, `light`, `neon`, `glassmorphism`, …). Applied only if your config YAML uses the `{{HOMEPAGE_VAR_DEFAULT_THEME}}` placeholder. |
 | `HOMEPAGE_VAR_TITLE` | no | *(empty)* | Optional: title shown in the browser tab. Applied only if config YAML uses `{{HOMEPAGE_VAR_TITLE}}`. |
 | `HOMEPAGE_VAR_LANGUAGE` | no | *(empty)* | UI language code (e.g., `en`, `fr`, `de`). Applied only if config YAML uses `{{HOMEPAGE_VAR_LANGUAGE}}`. |
+| `HOMEPAGE_AUTH_ENABLED` | no | *(unset)* | Set to `true` to enable the built-in auth gate. **Off by default** — Homepage v2.0+ ships without authentication unless explicitly enabled. |
+| `HOMEPAGE_AUTH_SECRET` | no | *(unset)* | Random string for signing auth cookies. Required when auth is enabled (`HOMEPAGE_AUTH_ENABLED=true`). |
+| `HOMEPAGE_AUTH_PASSWORD` | no | *(unset)* | Password for simple password-only login. Required unless OIDC settings are provided. |
+
+> **Auth (v2.0+)**: Homepage v2.0 introduces a simple built-in auth gate — off by default. To enable, set `HOMEPAGE_AUTH_ENABLED=true` and either `HOMEPAGE_AUTH_PASSWORD` (password login) or OIDC env vars (`HOMEPAGE_OIDC_ISSUER`, `HOMEPAGE_OIDC_CLIENT_ID`, `HOMEPAGE_OIDC_CLIENT_SECRET`, `HOMEPAGE_EXTERNAL_URL`). The built-in gate is a simple allow-all session — for per-user roles or SSO, place Homepage behind a reverse proxy with auth.
 
 > `HOMEPAGE_VAR_*` tokens substitute into your config YAML `{{HOMEPAGE_VAR_XXX}}` placeholders on container start. With an empty `/app/config` they have no visible effect until a matching `settings.yaml` is added. There is **no** `HOMEPAGE_PORT` or `LOG_LEVEL` env var in Homepage — port binding is handled by Railway's injected `PORT`.
 
@@ -166,9 +172,9 @@ For upstream-specific issues, consult <https://github.com/gethomepage/homepage/i
 
 ## 🔄 Updating
 
-This template pins Homepage to `v1.13.2`. To upgrade:
+This template pins Homepage to `v2.0.0`. To upgrade:
 
-1. Edit the `FROM` line in `Dockerfile` to a newer tag (e.g. `v1.14.0`).
+1. Edit the `FROM` line in `Dockerfile` to a newer tag (e.g. `v2.1.0`).
 2. Rebuild — Railway auto-detects a Dockerfile change.
 3. Confirm the new version against the [release notes](https://github.com/gethomepage/homepage/releases).
 
@@ -176,4 +182,4 @@ A GitHub Actions workflow (`.github/workflows/publish-lint.yml`) prevents publis
 
 ## 📄 License
 
-Homepage upstream is [MIT-licensed](https://github.com/gethomepage/homepage/blob/main/LICENSE). Template by [INAPP-Mobile](https://github.com/INAPP-Mobile). Issues/PRs: <https://github.com/INAPP-Mobile/railway-homepage>.
+Homepage upstream is [Apache-2.0 licensed](https://github.com/gethomepage/homepage/blob/main/LICENSE). Template by [INAPP-Mobile](https://github.com/INAPP-Mobile). Issues/PRs: <https://github.com/INAPP-Mobile/railway-homepage>.
