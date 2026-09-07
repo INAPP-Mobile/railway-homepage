@@ -10,7 +10,7 @@
 #   • Railway's cold first-build can take 90–180s; start-period=180s absorbs it.
 # =============================================================================
 
-FROM ghcr.io/gethomepage/homepage:v2.1.2
+FROM ghcr.io/gethomepage/homepage:v2.2.0
 
 # Railway mounts persistent volumes as root:root at RUNTIME, which defeats any
 # build-time chown. The upstream docker-entrypoint.sh only fixes /app/config
